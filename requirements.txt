@@ -1,0 +1,6 @@
+discord
+discord-components
+pytz
+mysql-connector
+PyYAML
+colorama
