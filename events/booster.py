@@ -5,7 +5,8 @@ from colorama import init
 from discord.ext import commands
 from discord.utils import find
 from database.db_lb import *
-from errors import line
+from events.error import line
+from functions import yellow, red
 
 init()
 class Booster(commands.Cog):
@@ -47,7 +48,8 @@ class Booster(commands.Cog):
                                     except ValueError:
                                         print(f'\033[93mError at on_member_update:\033[0m \033[91m{before.display_name}, usuário Booster sem ID no apelido.\033[0m')
                                     except Exception as e:
-                                        print(f'\033[93mError at on_member_update add_role:\033[0m \033[91m{e}\033[0m')
+                                        print(yellow('Error at on_member_update add_role: '), red(e))
+                                        #print(f'\033[93m\033[0m \033[91m{e}\033[0m')
 
                 # Role removida
                 if len(before.roles) > len(after.roles):
