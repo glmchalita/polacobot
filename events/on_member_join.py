@@ -1,4 +1,6 @@
 from discord.ext import commands
+from time import time
+
 
 class Join(commands.Cog):
     def __init__(self, client):
@@ -8,10 +10,18 @@ class Join(commands.Cog):
     async def on_member_join(self, member):
         # Long Beach
         if member.guild.id == 696664282615513188:
-            role = member.guild.get_role(699108448008405002)
-            await member.add_roles(role)
-            channel = member.guild.get_channel(880867172262498365)
-            await channel.send(f'> {member.mention} entrou.')
+            conta = self.client.get_user(member.id)
+            criacao = conta.created_at
+            if time() - criacao.timestamp() < 518400:
+                await member.kick()
+                await member.send(
+                    f'❌ **{member.display_name}**, nosso sistema de segurança detectou que sua conta tem menos de `UMA SEMANA` de vida. Para realizar sua verificação que não é um robô, entre em contato com **Chali#3955** pelo Discord.'
+                )
+            else:
+                role = member.guild.get_role(699108448008405002)
+                await member.add_roles(role)
+                channel = member.guild.get_channel(880867172262498365)
+                await channel.send(f'> {member.mention} entrou.')
         # LBPD
         if member.guild.id == 865643871933038602:
             role = member.guild.get_role(872270783446147102)
@@ -42,6 +52,7 @@ class Join(commands.Cog):
             await member.add_roles(role)
             channel = member.guild.get_channel(872100015567429632)
             await channel.send(f'> {member.mention} entrou.')
+
 
 def setup(client):
     client.add_cog(Join(client))
