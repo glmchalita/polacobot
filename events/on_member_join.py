@@ -31,7 +31,7 @@ class Join(commands.Cog):
                         f'❌ **{member.display_name}**, nosso sistema de segurança detectou que sua conta tem menos de `UMA SEMANA` de vida. Para realizar sua verificação que não é um robô, entre em contato com **Chali#3955** pelo Discord.'
                     )
                 except Exception as e:
-                    print(red(e))
+                    print(red(f'{e} {member}'))
             else:
                 role = member.guild.get_role(699108448008405002)
                 await member.add_roles(role)
