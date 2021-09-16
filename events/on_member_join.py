@@ -1,10 +1,16 @@
 from discord.ext import commands
 from time import time
+from functions import red
 
+whitelist = []
 
 class Join(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    @commands.command()
+    async def liberar(self, arg):
+        whitelist.append(arg)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -12,11 +18,20 @@ class Join(commands.Cog):
         if member.guild.id == 696664282615513188:
             conta = self.client.get_user(member.id)
             criacao = conta.created_at
-            if time() - criacao.timestamp() < 518400:
+            if str(member) in whitelist:
+                role = member.guild.get_role(699108448008405002)
+                await member.add_roles(role)
+                channel = member.guild.get_channel(880867172262498365)
+                await channel.send(f'> {member.mention} entrou.')
+                return
+            elif time() - criacao.timestamp() < 518400:
                 await member.kick()
-                await member.send(
-                    f'❌ **{member.display_name}**, nosso sistema de segurança detectou que sua conta tem menos de `UMA SEMANA` de vida. Para realizar sua verificação que não é um robô, entre em contato com **Chali#3955** pelo Discord.'
-                )
+                try:
+                    await member.send(
+                        f'❌ **{member.display_name}**, nosso sistema de segurança detectou que sua conta tem menos de `UMA SEMANA` de vida. Para realizar sua verificação que não é um robô, entre em contato com **Chali#3955** pelo Discord.'
+                    )
+                except Exception as e:
+                    print(red(e))
             else:
                 role = member.guild.get_role(699108448008405002)
                 await member.add_roles(role)
