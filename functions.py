@@ -1,4 +1,5 @@
 import discord
+import sys
 from discord.ext import commands
 from colorama import init
 
@@ -10,6 +11,11 @@ client = commands.Bot(command_prefix='.', case_insensitive=True, intents=intents
 def red(arg): return f'\033[91m{arg}\033[0m'
 def yellow(arg): return f'\033[93m{arg}\033[0m'
 def green(arg): return f'\033[32m{arg}\033[0m'
+
+def line():
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    return exc_tb.tb_lineno
+
 
 def ensure_commands(extension):
     try:
